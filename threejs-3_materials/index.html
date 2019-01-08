@@ -1,0 +1,361 @@
+<html>
+<head>
+    <title>threejs - material</title>
+
+    <style>
+    	body{
+    		margin: 0;
+    		overflow: hidden;
+    	}
+    </style>
+</head>
+<body>
+
+    <canvas id="myCanvas"></canvas>
+
+<script src="three.js"></script>
+
+
+    <script>
+
+    var renderer,
+    	scene,
+    	camera,
+    	myCanvas = document.getElementById('myCanvas');
+
+
+
+    //RENDERER
+    renderer = new THREE.WebGLRenderer({
+      canvas: myCanvas, 
+      antialias: true,
+     // logarithmicDepthBuffer: true
+    });
+    //renderer.setClearColor(0x000000);
+    renderer.setClearColor(0x000000);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    //CAMERA
+    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 300, 10000 );
+
+    //SCENE
+    scene = new THREE.Scene();
+    //scene.overrideMaterial = new THREE.MeshDepthMaterial();
+
+    //LIGHTS
+    var light = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(light);
+
+    var light2 = new THREE.PointLight(0xffffff, 0.5);
+    scene.add(light2);
+  
+    /*
+    var material = new THREE.Material({
+      transparent: true,
+      opacity: 0.5,
+      depthTest: true,
+      depthWrite: true,
+      depthFunc: THREE.LessEqualDepth,
+      blending: THREE.NormalBlending,
+      blendSrc: THREE.SrcAlphaFactor,
+      blendDst: THREE.OneMinusSrcAlphaFactor,
+      blendEquation: THREE.AddEquation,
+      polygonOffset: false,
+      polygonOffsetFactor: 0,
+      polygonOffsetUnits: 0,
+      clippingPlanes: null,
+      clipShadows: false,
+      overdraw: 0,
+      needsUpdate: false,
+      alphaTest: 0,
+      visible: true,
+      side: THREE.FrontSide //THREE.BackSide, THREE.DoubleSide
+    });
+    */
+ 
+    
+    //flat color
+    var material = new THREE.MeshBasicMaterial({
+      color: 0x00ff00,
+      wireframe: false,
+      wireframeLinewidth: 1,
+      wireframeLinecap: 'round',
+      wireframeLinejoin: 'round',
+      shading: THREE.SmoothShading,
+      vertexColors: THREE.NoColors, //used if colors on geomtry
+      reflectivity: 1,
+      refractionRatio: 0.98,
+      combine: THREE.MultiplyOperation,
+      fog: true,
+      aoMap: null,
+      aoMapIntensity: 1,
+      envMap: null,
+      map: null,
+      specularMap: null,
+      alphaMap: null,
+      skinning: false,
+      morphTargets: false
+    });
+    
+
+    
+    //maps normal vectors to RGB colors
+    var material = new THREE.MeshNormalMaterial({
+      wireframe: false,
+      wireframeLineWidth: 1,
+      morphTargets: false,
+      transparent: false,
+      opacity: 1,
+      depthTest: true,
+      depthWrite: true,
+      depthFunc: THREE.LessEqualDepth,
+      blending: THREE.NormalBlending,
+      blendSrc: THREE.SrcAlphaFactor,
+      blendDst: THREE.OneMinusSrcAlphaFactor,
+      blendEquation: THREE.AddEquation,
+      polygonOffset: false,
+      polygonOffsetFactor: 0,
+      polygonOffsetUnits: 0,
+      clippingPlanes: null,
+      clipShadows: false,
+      overdraw: 0,
+      needsUpdate: false,
+      alphaTest: 0,
+      visible: true,
+      side: THREE.FrontSide //THREE.BackSide, THREE.DoubleSide
+    });
+    
+
+     
+    //non-shiny material
+    var material = new THREE.MeshLambertMaterial({
+      color: 0xF3FFE2,
+      lightMap: null,
+      lightMapIntensity: 1,
+      emissive: 0x000000,
+      emissiveMap: null,
+      emissiveIntensity: 1,
+      specularMap: null
+    });
+    
+
+    
+    //shiny material
+    var material = new THREE.MeshPhongMaterial({
+      color: 0xF3FFE2,
+      specular: 0xffffff,
+      shininess: 1000,
+      lightMap: null,
+      lightMapIntensity: 1,
+      bumpMap: null,
+      bumpScale: 1,
+      normalMap: null,
+      normalScale: 1,
+      displacementMap: null,
+      displacementScale: 1,
+      displacementBias: 0,
+      specularMap: null
+    });
+    
+
+    
+    //combination of non-shiny/shiny material
+    var material = new THREE.MeshStandardMaterial({
+      color: 0xF3FFE2,
+      roughness: 0.5,
+      metalness: 0.5
+    });
+    
+
+   
+    //PBR - physical based renderer
+    var material = new THREE.MeshPhysicalMaterial({
+      color: 0xF3FFE2,
+      roughness: 0,
+      metalness: 0.5,
+      reflectivity: 0.5,
+      clearCoat: 0,
+      claerCoatRoughness: 0
+    });
+   
+
+    
+    //depth
+    var material = new THREE.MeshDepthMaterial();
+    
+
+    //var material = new THREE.MeshMultiMaterial({color: 0xF3FFE2});
+
+
+    /*
+    //Custom Shader Material
+    //Built in uniforms and attributes:
+    //http://threejs.org/docs/api/renderers/webgl/WebGLProgram.html
+
+    var material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 1.0 },
+        resolution: { value: new THREE.Vector2() }
+      },
+      attributes: {
+        vertexOpacity: { value: [] }
+      },
+      vertexShader: '',
+      fragmentShader: ''
+    });
+    */
+
+    /*
+    //Custom Shader Material where built-in uniforms and attributes are not automatically prepended to teh code
+    var material = new THREE.RawShaderMaterial({color: 0xF3FFE2});
+    */
+/*
+    
+    var geometry = new THREE.BoxGeometry(100, 100, 100);
+    geometry.computeLineDistances();
+    var mesh = new THREE.Mesh(geometry, material);
+    mesh.position.z = -500;
+    mesh.position.x = -100;
+    scene.add(mesh);
+
+
+    var geometry2 = new THREE.SphereGeometry(50, 20, 20);
+    var mesh2 = new THREE.Mesh(geometry2, material);
+    mesh2.position.z = -500;
+    mesh2.position.x = 100;
+    scene.add(mesh2);
+
+
+    var geometry3 = new THREE.PlaneGeometry(10000, 10000, 100, 100);
+    var mesh3 = new THREE.Mesh(geometry3, material);
+    mesh3.rotation.x = -90 * Math.PI / 180;
+    mesh3.position.y = -100;
+    scene.add(mesh3);
+    
+*/
+
+    /////////////////////Lines
+
+
+    /*
+    //Line material
+    var material = new THREE.LineBasicMaterial({
+      color: 0xF3FFE2,
+      linewidth: 2
+    });
+    
+
+    
+    //Dashed line **also compute distance of geometry**
+    var material = new THREE.LineDashedMaterial({
+      color: 0xF3FFE2,
+      linewidth: 1,
+      dashSize: 2, 
+      gapSize: 3
+    });
+    
+
+    var geometry = new THREE.BoxGeometry(100, 100, 100);
+    var mesh = new THREE.Line(geometry, material);
+    mesh.position.z = -500;
+    mesh.position.x = -100;
+    scene.add(mesh);
+
+
+    var geometry2 = new THREE.SphereGeometry(50, 20, 20);
+    var mesh2 = new THREE.Line(geometry2, material);
+    mesh2.position.z = -500;
+    mesh2.position.x = 100;
+    scene.add(mesh2);
+
+
+    var geometry3 = new THREE.PlaneGeometry(10000, 10000, 100, 100);
+    var mesh3 = new THREE.Line(geometry3, material);
+    mesh3.rotation.x = -90 * Math.PI / 180;
+    mesh3.position.y = -100;
+    scene.add(mesh3);
+    
+
+
+    //for dashed lines
+    geometry.computeLineDistances();
+    geometry2.computeLineDistances();
+    geometry3.computeLineDistances();
+    
+    */
+
+
+    /////////////////////Points
+
+    /*
+    //Points material
+    var material = new THREE.PointsMaterial({color: 0xF3FFE2});
+    
+    var geometry = new THREE.BoxGeometry(100, 100, 100);
+    var mesh = new THREE.Points(geometry, material);
+    mesh.position.z = -1000;
+    mesh.position.x = -100;
+    scene.add(mesh);
+
+
+    var geometry2 = new THREE.SphereGeometry(50, 20, 20);
+    var mesh2 = new THREE.Points(geometry2, material);
+    mesh2.position.z = -1000;
+    mesh2.position.x = 100;
+    scene.add(mesh2);
+
+
+    var geometry3 = new THREE.PlaneGeometry(10000, 10000, 100, 100);
+    var mesh3 = new THREE.Points(geometry3, material);
+    mesh3.rotation.x = -90 * Math.PI / 180;
+    mesh3.position.y = -100;
+    scene.add(mesh3);
+    */
+
+
+
+    ////////////////////Sprite
+
+    
+    //Sprite material    
+    var material = new THREE.SpriteMaterial({
+      //map: new THREE.TextureLoader().load("59e37674fe09dc0ea6caf1b87115c575.jpg"),
+      color: 0xF3FFE2
+    });
+
+
+    var mesh = new THREE.Sprite(material);
+    mesh.scale.set(100, 100, 100);
+    mesh.position.z = -1000;
+    scene.add(mesh);
+    
+
+
+
+    //RENDER LOOP
+    render();
+
+
+    var delta = 0;
+    function render() {
+
+    	//mesh.rotation.x += 0.01;
+    	//mesh.rotation.y += 0.01;
+
+
+      //with sprite
+      
+      delta += 0.01;
+      //camera.position.x = Math.sin(delta) * 200;
+      //camera.position.z = Math.cos(delta) * 300;
+      
+
+    	renderer.render(scene, camera);
+
+    	requestAnimationFrame(render);
+    }
+
+    </script>
+</body>
+</html>
